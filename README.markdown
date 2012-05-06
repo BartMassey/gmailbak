@@ -73,20 +73,33 @@ it seems to work reliably for me.
 7.  Copy gmailbak.sh to ~gmailbak. Make it owned by gmailbak,
     with perms 0700.
 
-8.  Use "crontab -e -u gmailbak" as root (or gmailbak) to
-    insert an entry for cron to run gmailbak.sh to make your
-    backups regularly. I use this entry to run morning and
-    evening.
-
-          7 5,23 *   *   *    /home/gmailbak/gmailbak.sh
-
-9.  If you want more users, you should just be able to stick
+8.  If you want more users, you should just be able to stick
     more username.conf files in the gmailbak directory and
     add the corresponding subdirectories to your storage
     directory (repeating steps 3 and 6). Note that this has
     not been tested, however.
 
+9.  Get things started with "su - gmailbak; sh -x gmailbak.sh".
+    You should see getmail run for a long time, then sleep for
+    60 seconds, then run for a long time again, until it has
+    downloaded all the email. You can look at the log files in
+    the gmailbak home directory or the emails themselves to verify
+    that everything is copacetic. Note that this could literally
+    take days.
+
+10. Once the initial backup is done, use "crontab -e -u
+    gmailbak" as root (or gmailbak) to insert an entry for
+    cron to run gmailbak.sh to make your backups
+    regularly. I use this entry to run morning and evening.
+
+          7 5,23 *   *   *    sh $HOME/gmailbak.sh
+
 ## TODO
 
 * Add scripts or something to simplify the complex
   installation.
+
+* Because of the one-file-per-email storage format, your
+  backup directory may become difficult to work with due to
+  the number of directory entries. Figure out a good plan
+  for this.
